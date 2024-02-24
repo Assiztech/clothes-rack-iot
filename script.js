@@ -47,7 +47,13 @@ async function updateTemperature() {
 
     const rainElement = document.getElementById("rain");
     rainElement.textContent = "Loading...";
-    rainElement.textContent = `${data.rain}`;
+    let text = "True";
+    document.getElementById("rain").style.cssText = "color: springgreen;";
+    if (data.rain <= 1000) {
+        text = "False";
+        document.getElementById("rain").style.cssText = "color: tomato;";
+    }
+    rainElement.textContent = `${text}`;
 }
 async function forceCollect() {
     try {
