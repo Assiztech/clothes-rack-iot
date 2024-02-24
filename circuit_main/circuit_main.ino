@@ -27,7 +27,7 @@ const String api = "http://192.168.170.58:8000";
 
 DHT dht(DHTPIN, DHTTYPE);
 int is_collect = 0;
-void showData(float h, float t, bool rainDetected);
+void showData(float h, float t, bool rainDetected, int env_status, bool is_auto, bool is_hanging);
 
 void wi_fi(void *p);
 bool isRainDetected();
@@ -104,7 +104,7 @@ void loop()
     // return;
   }
   
-  showData(h, t, isRainDetected());
+  
 
   update_status(t, h, lightVal, rainVal, is_hanging, is_auto);
   get_status();
@@ -117,7 +117,7 @@ void loop()
       is_hanging = false;
     } else if(env_status == 2 && is_hanging){
       Serial.println("Alert");
-      digitalWrite(BUZZER_PIN, HIGH); delay(100); digitalWrite(BUZZER_PIN, LOW);
+      ledcWriteTone(BUZZER_PIN, 500); delay(100); digitalWrite(BUZZER_PIN, 0);
     } else if(env_status == 3 && !is_hanging){
       Serial.println("Sunny");
       forward(3000);
@@ -125,23 +125,49 @@ void loop()
     }
   }
 
+  showData(h, t, isRainDetected(), env_status, is_auto, is_hanging);
+
   delay(2000);
 }
 
-void showData(float h, float t, bool rainDetected)
+void showData(float h, float t, bool rainDetected, int env_status, bool is_auto, bool is_hanging)
 {
-  Serial.print("Rain: ");
-  if (rainDetected)
-  {
-    Serial.println("Rain Detected");
+  Serial.println("\n------------------------");
+  Serial.print("Hanging Status: "); 
+  if(is_hanging){
+    Serial.println("Hanging"); 
+  } else {
+    Serial.println("Keeping");
+  }
+
+  Serial.print("System: "); 
+  if(is_auto){
+    Serial.println("Auto"); 
+  } else {
+    Serial.println("Manual");
+  }
+
+  Serial.print("Environment state: ");
+  if(env_status == 1){
+    Serial.println("Rain");
     digitalWrite(GREEN_LED, LOW);
     digitalWrite(RED_LED, HIGH);
-  }
-  else
-  {
-    Serial.println("No Rain");
+  } else if(env_status == 2){
+    Serial.println("Alert (Might Rain)");
     digitalWrite(GREEN_LED, HIGH);
     digitalWrite(RED_LED, LOW);
+  } else {
+    Serial.println("Sunny");
+    digitalWrite(GREEN_LED, HIGH);
+    digitalWrite(RED_LED, LOW);
+  }
+
+  Serial.print("Rain: ");
+  if (rainDetected){
+    Serial.print("Yes | ");
+  }
+  else{
+    Serial.print("No | ");
   }
   Serial.print("Light: ");
   Serial.print(lightVal);
@@ -150,6 +176,7 @@ void showData(float h, float t, bool rainDetected)
   Serial.print(" Temperature: ");
   Serial.print(t);
   Serial.println(" *C ");
+  Serial.println("------------------------\n");
 }
 
 void wi_fi(void *p)
