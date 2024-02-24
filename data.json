@@ -1,0 +1,9 @@
+{
+  "temperature": 25.4,
+  "humidity": 69.5,
+  "light": 4095.0,
+  "rain": 0.0,
+  "is_hanging": 1,
+  "force_collect": 0,
+  "is_auto": 1
+}
