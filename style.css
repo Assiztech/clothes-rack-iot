@@ -15,9 +15,6 @@
     color: #1ff1ff;
 }
 
-img{
-    width: 24vw;
-}
 body{
     display: flex;
     flex-direction: row;
@@ -127,8 +124,15 @@ button:hover{
     background-color: yellow;
 }
 
-@media only screen and (max-width: 425px){
+@media only screen and (max-width: 625px){
     img{
         display: none;
+    }
+}
+
+@media only screen and (min-width: 625px){
+    img{
+        display: block;
+        width: 18vw;
     }
 }
