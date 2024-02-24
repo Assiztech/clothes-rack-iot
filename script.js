@@ -13,7 +13,11 @@ async function updateTemperature() {
 
     const statusElement = document.getElementById("is_hanging");
     statusElement.textContent = "Loading...";
-    statusElement.textContent = `Status : ${data.is_hanging}`;
+    if (data.is_hanging == 1) {
+        statusElement.textContent = `Status : Hanging`;
+    } else {
+        statusElement.textContent = `Status : Keeping`;
+    }
 
     const actionButton = document.getElementById("actionButton");
     if (data.is_hanging) {
