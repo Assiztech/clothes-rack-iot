@@ -243,7 +243,7 @@ void wi_fi(void *p)
 }
 
 int environment_status(float temperature, float humidity, float light, float rainVal){
-  if( (rainVal >= 1000) || (humidity >= 80 && light <= 900)){
+  if( (rainVal >= 1500) || (humidity >= 80 && light <= 900)){
     return 1; //rain
   } else if(humidity >= 80 || light <= 900) {
     return 2; //alert before rain
