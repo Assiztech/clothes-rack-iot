@@ -2,6 +2,7 @@
     box-sizing: border-box;
     padding: 0;
     margin: 0;
+
     font-family: sans-serif;
 }
 
@@ -30,31 +31,29 @@ body{
 
 .is_hanging{
     margin-top: 16px;
-    color: chocolate;
+    color: violet;
 }
 
-.output{
-    padding: 16px;
+ul{
     display: flex;
     flex-direction: column;
-    justify-content: space-around;
+    justify-content: center;
+    align-items: center;
+    margin-top: 16px;
     border: 1px white solid ;
-    border-radius: 20px;
-    width: 200px;
-    height: 200px;
-    background-color: rgba(245, 222, 179, 0.06);
+    border-radius: 16px;
+    height: 12vh;
 }
-
-.output p{
-    font-weight: bold;
+ul p{
+    margin-left: 16px;
+    font-size: small;
+    align-self: flex-start;
 }
-
-.output div{
-    align-self: flex-end;
+ul div{
     font-size: xx-large;
-    font-weight: lighter;
-    color: gold;
-
+    margin-right: 16px;
+    align-self: flex-end;
+    color: springgreen;
 }
 
 /* .container ul div:nth-child(1n){
@@ -76,9 +75,7 @@ h1{
 button{
 
     margin-top: 20px;
-    width: 200px;
-    height: 32px;
-    /* padding: 8px 48px; */
+    padding: 8px 48px;
     position: relative;
     text-align: center;
     font-weight: bold;
@@ -88,13 +85,6 @@ button{
     color: #ffffff;
 
     cursor: pointer;
-}
-
-.grid-container{
-    margin-top: 16px;
-    display: grid;
-    gap: 8px;
-    grid-template-columns: auto auto;
 }
 
 button:hover{
@@ -110,7 +100,7 @@ button:hover{
 
     cursor: pointer;
 }
-/* 
+
 .cyberpunk{
     background-color: #1ff1ff;
     height: 1px;
@@ -132,8 +122,8 @@ button:hover{
 
 .cyberpunk:nth-child(6n){
     background-color: yellow;
-} */
-/* 
+}
+
 @media only screen and (max-width: 625px){
     img{
         display: none;
@@ -145,4 +135,4 @@ button:hover{
         display: block;
         width: 18vw;
     }
-} */
+}
