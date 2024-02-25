@@ -57,7 +57,7 @@ async function updateTemperature() {
     r = 0;
     g = 0;
     b = 30;
-    const dataTemp = data.rain;
+    const dataTemp = data.temp;
     r = (dataTemp - 20) * 24;
     g = (34 - dataTemp) * 36;
     if (dataTemp <= 20) {
