@@ -13,6 +13,7 @@ async function updateTemperature() {
 
     const statusElement = document.getElementById("is_hanging");
     statusElement.textContent = "Loading...";
+    statusElement.style.cssText = "color: pink;";
     if (data.is_hanging == 1) {
         statusElement.textContent = `Status : Hanging`;
     } else {
@@ -27,6 +28,7 @@ async function updateTemperature() {
     }
 
     const autoButton = document.getElementById("autoButton");
+
     if (data.is_auto) {
         autoButton.textContent = "System: Auto";
     } else {
@@ -35,23 +37,26 @@ async function updateTemperature() {
 
     const temperatureElement = document.getElementById("temperature");
     temperatureElement.textContent = "Loading...";
+    temperatureElement.style.cssText = "color: springgreen;";
     temperatureElement.textContent = `${data.temperature}`;
 
     const humidityElement = document.getElementById("humidity");
     humidityElement.textContent = "Loading...";
+    humidityElement.style.cssText = "color: springgreen;";
     humidityElement.textContent = `${data.humidity}`;
 
     const lightElement = document.getElementById("light");
     lightElement.textContent = "Loading...";
+    lightElement.style.cssText = "color: springgreen;";
     lightElement.textContent = `${data.light}`;
 
     const rainElement = document.getElementById("rain");
     rainElement.textContent = "Loading...";
     let text = "True";
-    document.getElementById("rain").style.cssText = "color: springgreen;";
+    rainElement.style.cssText = "color: springgreen;";
     if (data.rain <= 1000) {
         text = "False";
-        document.getElementById("rain").style.cssText = "color: tomato;";
+        rainElement.style.cssText = "color: tomato;";
     }
     rainElement.textContent = `${text}`;
 }
