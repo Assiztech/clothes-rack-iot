@@ -12,40 +12,43 @@
         <link rel="stylesheet" href="style.css" />
     </head>
     <body>
-        <img
+        <!-- <img
             src="https://cdn.discordapp.com/attachments/1189548322655047690/1210874104379609158/Ganyu_Card.jpg?ex=65ec2563&is=65d9b063&hm=28cd0b7042a6f29909a2fc66af229fd5d3395c8be3fd1c9b5868fea577c7173a&"
             alt=""
-        />
+        /> -->
         <div class="big-container">
             <div class="container header">
                 <h1>Sensor Data Visualization</h1>
-                <div id="is_hanging" class="is_hanging"></div>
-                <ul>
-                    <p>Temperature</p>
-                    <div id="temperature">Loading...</div>
-                </ul>
-                <ul>
-                    <p>Humidity</p>
-                    <div id="humidity">Loading...</div>
-                </ul>
-                <ul>
-                    <p>Light</p>
-                    <div id="light">Loading...</div>
-                </ul>
-                <ul>
-                    <p>Rain</p>
-                    <div id="rain">Loading...</div>
-                </ul>
-            </div>
-            <div class="container footer">
-                <button id="actionButton">Collect Cloth In</button>
-                <button id="autoButton">Auto</button>
+                <div id="is_hanging" class="is_hanging">Status : Offline</div>
+
+                <div class="container footer">
+                    <button id="actionButton">Collect Cloth In</button>
+                    <button id="autoButton">Auto</button>
+                </div>
+                <div class="grid-container">
+                    <div class="output">
+                        <p>Temperature</p>
+                        <div id="temperature">Loading...</div>
+                    </div>
+                    <div class="output">
+                        <p>Humidity</p>
+                        <div id="humidity">Loading...</div>
+                    </div>
+                    <div class="output">
+                        <p>Light</p>
+                        <div id="light">Loading...</div>
+                    </div>
+                    <div class="output">
+                        <p>Rain</p>
+                        <div id="rain">Loading...</div>
+                    </div>
+                </div>
             </div>
             <script src="script.js"></script>
         </div>
-        <img
+        <!-- <img
             src="https://cdn.discordapp.com/attachments/1189548322655047690/1210874104379609158/Ganyu_Card.jpg?ex=65ec2563&is=65d9b063&hm=28cd0b7042a6f29909a2fc66af229fd5d3395c8be3fd1c9b5868fea577c7173a&"
             alt=""
-        />
+        /> -->
     </body>
 </html>
