@@ -18,6 +18,7 @@
 #define GROUND_PIN_2 27
 
 int lightVal;
+int env_status = 0;
 const int ANALOG_READ_PIN = 36; // or A0
 const int RESOLUTION = 12;      // Could be 9-12
 const char *ssid = "OPPO A5 2020";
@@ -43,7 +44,7 @@ const unsigned long beepInterval = 60000;
 unsigned long lastBeepTime = -beepInterval; 
 
 void switchRelay(void *p) ;
-void update_status(float temperature, float humidity, float light, float rain, int is_hanging, int is_auto);
+void update_status(float temperature, float humidity, float light, float rain, int is_hanging, int is_auto, int env_status);
 void get_status();
 void respond_force_collect();
 void stop();
@@ -117,9 +118,9 @@ void loop()
     // return;
   }
 
-  update_status(t, h, lightVal, rainVal, is_hanging, is_auto);
+  update_status(t, h, lightVal, rainVal, is_hanging, is_auto, env_status);
   get_status();
-  int env_status = environment_status(t, h, lightVal, rainVal);
+  env_status = environment_status(t, h, lightVal, rainVal);
 
   if(is_auto){
     if(env_status == 1 && is_hanging){
@@ -283,9 +284,9 @@ void switchRelay(void *p) {
 }
 
 
-void update_status(float temperature, float humidity, float light, float rain, int is_hanging, int is_auto){
+void update_status(float temperature, float humidity, float light, float rain, int is_hanging, int is_auto, int env_status){
   HTTPClient http;
-  String url = api + "/update-sensor" + "?" + "temperature=" + String(temperature) + "&humidity=" + String(humidity) + "&light=" + String(light) + "&rain=" + String(rain) + "&is_hanging=" + String(is_hanging) + "&is_auto=" + String(is_auto);
+  String url = api + "/update-sensor" + "?" + "temperature=" + String(temperature) + "&humidity=" + String(humidity) + "&light=" + String(light) + "&rain=" + String(rain) + "&is_hanging=" + String(is_hanging) + "&is_auto=" + String(is_auto) + "&env_status=" + String(env_status) ;
   http.begin(url);
   int httpCode = http.GET();
 
