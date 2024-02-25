@@ -24,6 +24,7 @@ def update_sensor():
     light = float(request.args.get('light'))
     rain = float(request.args.get('rain'))
     is_hanging = int(request.args.get('is_hanging'))
+    env_status = int(request.args.get('env_status'))
 
     data = load_data()
     data["temperature"] = temperature
@@ -31,6 +32,7 @@ def update_sensor():
     data["light"] = light
     data["rain"] = rain
     data["is_hanging"] = is_hanging
+    data["env_status"] = env_status
 
     save_data(data)  # Save the data to a JSON file
     return jsonify({"message": "Data received and saved successfully"})
@@ -46,6 +48,7 @@ def get_status():
         "light": data.get("light"),
         "rain": data.get("rain"),
         "is_auto": data.get("is_auto"),
+        "env_status": data.get("env_status"),
     })
 
 @app.route("/force-collect", methods=["GET"])
@@ -87,6 +90,7 @@ if __name__ == "__main__":
         "is_hanging" : 0,
         "force_collect" : 0,
         "is_auto" : 0,
+        "env_status" : 0,
     }
     save_data(data)
     app.run(debug=True, host='0.0.0.0', port=8000)

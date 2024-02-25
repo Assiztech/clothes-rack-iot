@@ -19,6 +19,19 @@ async function updateTemperature() {
         statusElement.textContent = `Status : Keeping`;
     }
 
+    const envStatusElement = document.getElementById("env_status");
+    envStatusElement.textContent = "Loading...";
+    if (data.env_status == 1) {
+        envStatusElement.textContent = `environment : Rain`;
+    } else if (data.env_status == 2) {
+        envStatusElement.textContent = `environment : Might Rain`;
+    } else if (data.env_status == 3) {
+        envStatusElement.textContent = `environment : Sunny (Hot)`;
+    } else {
+        envStatusElement.textContent = `environment : Sunny`;
+    }
+
+
     const actionButton = document.getElementById("actionButton");
     if (data.is_hanging) {
         actionButton.textContent = "Collect Cloth In";
