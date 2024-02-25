@@ -36,15 +36,25 @@ bool flag_motor = false;
 
 bool is_hanging = false;
 bool is_auto = false;
+bool is_beep = false;
+
+
+const unsigned long beepInterval = 60000;
+unsigned long lastBeepTime = -beepInterval; 
 
 void switchRelay(void *p) ;
 void update_status(float temperature, float humidity, float light, float rain, int is_hanging, int is_auto);
 void get_status();
 void respond_force_collect();
 void stop();
-void forward(int delay_time_ms);
-void backward(int delay_time_ms);
+void forward();
+void backward();
 int environment_status(float temperature, float humidity, float light, float rainVal);
+
+void beep(void *p);
+
+void beep_alert();
+
 
 void setup()
 {
@@ -67,6 +77,7 @@ void setup()
   ledcSetup(3, 8000, 12);
   ledcAttachPin(BUZZER_PIN, 3);
   byte i = 9;
+
   while (WiFi.status() != WL_CONNECTED)
   {
     digitalWrite(BLUE_LED, !digitalRead(BLUE_LED));
@@ -87,10 +98,12 @@ void setup()
   }
   xTaskCreate(wi_fi, "wi_fi", 4096, NULL, 1, NULL);
   // xTaskCreate(switchRelay, "switchRelay", 4096, NULL, 0, NULL);
+  xTaskCreate(beep, "beep", 4096, NULL, 0, NULL);
 }
 
 void loop()
 {
+
   analogReadResolution(RESOLUTION);
   int rainVal = analogRead(RAIN_SENSOR);
   lightVal = analogRead(ANALOG_READ_PIN);
@@ -103,8 +116,6 @@ void loop()
     Serial.println("Failed to read from DHT sensor!");
     // return;
   }
-  
-  
 
   update_status(t, h, lightVal, rainVal, is_hanging, is_auto);
   get_status();
@@ -113,20 +124,34 @@ void loop()
   if(is_auto){
     if(env_status == 1 && is_hanging){
       Serial.println("Rain");
-      backward(3000);
+      backward();
       is_hanging = false;
+      is_beep = false;
     } else if(env_status == 2 && is_hanging){
       Serial.println("Alert");
-      ledcWriteTone(BUZZER_PIN, 500); delay(100); digitalWrite(BUZZER_PIN, 0);
-    } else if(env_status == 3 && !is_hanging){
+      // is_beep = true;
+      beep_alert();
+    } else if(env_status == 3 || env_status == 4 && !is_hanging){
       Serial.println("Sunny");
-      forward(3000);
+      forward();
       is_hanging = true;
+      is_beep = false;
+    } else {
+      is_beep = false;
     }
-  }
+  } 
+  // else {
+  //   if(!is_hanging && (env_status == 3 || env_status == 4)){
+  //     // แจ้งเตือนให้เอาผ้าออกมาตาก เมื่อแดดออก (หากใช้ระบบ Manual)
+  //     Serial.print("Not hang - beep");
+  //     is_beep = true;
+  //   } else {
+  //     Serial.print("hang - not beep");
+  //     is_beep = false;
+  //   }
+  // }
 
   showData(h, t, isRainDetected(), env_status, is_auto, is_hanging);
-
   delay(2000);
 }
 
@@ -154,6 +179,10 @@ void showData(float h, float t, bool rainDetected, int env_status, bool is_auto,
     digitalWrite(RED_LED, HIGH);
   } else if(env_status == 2){
     Serial.println("Alert (Might Rain)");
+    digitalWrite(GREEN_LED, HIGH);
+    digitalWrite(RED_LED, LOW);
+  } else if(env_status == 3){
+    Serial.println("Sunny (Hot)");
     digitalWrite(GREEN_LED, HIGH);
     digitalWrite(RED_LED, LOW);
   } else {
@@ -213,12 +242,14 @@ void wi_fi(void *p)
 }
 
 int environment_status(float temperature, float humidity, float light, float rainVal){
-  if( (rainVal >= 1000) || (humidity >= 70 && light <= 1500)){
+  if( (rainVal >= 1000) || (humidity >= 80 && light <= 900)){
     return 1; //rain
-  } else if(humidity >= 80 || light <= 1500) {
+  } else if(humidity >= 80 || light <= 900) {
     return 2; //alert before rain
+  } else if(temperature >= 30){
+    return 3; // sunny HOT
   } else {
-    return 3; //sunny
+    return 4; //sunny
   }
 }
 
@@ -226,7 +257,7 @@ bool isRainDetected()
 {
   int rainVal = analogRead(RAIN_SENSOR);
   // Serial.println(rainVal);
-  return rainVal > 1000;
+  return rainVal > 1500;
 }
 
 void switchRelay(void *p) {
@@ -235,17 +266,19 @@ void switchRelay(void *p) {
       digitalWrite(RELAY_1_PIN, LOW);
       digitalWrite(RELAY_2_PIN, HIGH);
       // ledcWriteTone(3, 500);
+      delay(15000);
     }
     else {
       digitalWrite(RELAY_1_PIN, HIGH);
       digitalWrite(RELAY_2_PIN, LOW);
       // ledcWriteTone(3, 0);
+      delay(10000);
     }
     // Serial.print(digitalRead(RELAY_1_PIN));
     // Serial.print(" , ");
     // Serial.println(digitalRead(RELAY_2_PIN)); 
     flag_motor = !flag_motor;
-    delay(1000);
+    
   }
 }
 
@@ -295,16 +328,15 @@ void get_status() {
       float rain = doc["rain"];
       int force_collect = doc["force_collect"];
       is_auto = doc["is_auto"];
-      Serial.println("is_auto");
       
       if(force_collect == 1){
         if(is_hanging){
           Serial.println("Collect in");
-          backward(3000);
+          backward();
           is_hanging = !is_hanging;
         } else {
           Serial.println("put out");
-          forward(1000);
+          forward();
           is_hanging = !is_hanging;
         }
         respond_force_collect();
@@ -343,18 +375,50 @@ void respond_force_collect() {
 void stop(){
   digitalWrite(RELAY_1_PIN, LOW);
   digitalWrite(RELAY_2_PIN, LOW);
+  is_beep = false;
 }
 
-void forward(int delay_time_ms){
+void forward(){
+  is_beep = true;
   digitalWrite(RELAY_1_PIN, HIGH);
   digitalWrite(RELAY_2_PIN, LOW);
-  delay(delay_time_ms);
+  delay(8000);
   stop();
 }
 
-void backward(int delay_time_ms){
+void backward(){
+  is_beep = true;
   digitalWrite(RELAY_1_PIN, LOW);
   digitalWrite(RELAY_2_PIN, HIGH);
-  delay(delay_time_ms);
+  delay(8000);
   stop();
+}
+
+void beep(void *p){
+  while(true){
+    // Serial.println("beep in bg");
+    if(is_beep){
+      // Serial.print("is_beep: "); Serial.println(is_beep);
+      // Serial.print("Beppppppp");
+      ledcWriteTone(3, 500); 
+      delay(100); 
+      ledcWriteTone(3, 0);
+      // Serial.println("- Stop Beppppppp");
+      delay(200);
+    } else {
+      ledcWriteTone(3, 0);
+    }
+    // delay(100);
+  }
+}
+
+void beep_alert(){
+  Serial.println(millis() - lastBeepTime);
+  if (millis() - lastBeepTime >= beepInterval) {
+    is_beep = true;
+    delay(1000);
+    is_beep = false;
+    lastBeepTime = millis(); // Update last beep time
+  }
+
 }
