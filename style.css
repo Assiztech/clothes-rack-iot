@@ -2,7 +2,6 @@
     box-sizing: border-box;
     padding: 0;
     margin: 0;
-
     font-family: sans-serif;
 }
 
@@ -12,7 +11,7 @@
     align-items: center;
     background-color: rgb(30,30,30);
     margin-top: 48px;
-    color: #1ff1ff;
+    color: tomato;
 }
 
 body{
@@ -22,16 +21,21 @@ body{
     align-items: center;
     background-color: rgb(30,30,30);
     height: 100vh;
-    
 }
 
 .container{
     margin-top: 12px;
+    width: 342px;
 }
 
+.footer{
+    display: flex ;
+    flex-direction:  row;
+    justify-content: center;
+    align-items: center;
+}
 .is_hanging{
     margin-top: 16px;
-    color: violet;
 }
 
 ul{
@@ -48,14 +52,13 @@ ul p{
     margin-left: 16px;
     font-size: small;
     align-self: flex-start;
+    color: #1ff1ff;
 }
 ul div{
     font-size: xx-large;
     margin-right: 16px;
     align-self: flex-end;
-    color: springgreen;
 }
-
 /* .container ul div:nth-child(1n){
     color:yellow
 }
@@ -68,23 +71,22 @@ ul div{
 .container ul div:nth-child(4n){
     color:springgreen;
 } */
-
 h1{
     color: #ffffff;
 }
 button{
-
     margin-top: 20px;
     padding: 8px 48px;
     position: relative;
     text-align: center;
     font-weight: bold;
     border: 1px solid #1ff1ff;
-    border-radius: 4px;
+    border-radius: 12px;
     background-color: #1ff0ff09;
     color: #ffffff;
-
     cursor: pointer;
+    width: 168px;
+    height: 64px;
 }
 
 button:hover{
@@ -94,36 +96,11 @@ button:hover{
     text-align: center;
     font-weight: bold;
     border: 2px solid #ffffff;
-    border-radius: 4px;
+    border-radius: 12px;
     background-color: #1ff0ff99;
     color: #ffffff;
-
     cursor: pointer;
 }
-
-.cyberpunk{
-    background-color: #1ff1ff;
-    height: 1px;
-    width: 100vw;
-    margin-top: 24px;
-}
-
-.cyberpunk:nth-child(2n){
-    background-color: violet;
-}
-
-.cyberpunk:nth-child(3n){
-    background-color: springgreen;
-}
-
-.cyberpunk:nth-child(5n){
-    background-color: white;
-}
-
-.cyberpunk:nth-child(6n){
-    background-color: yellow;
-}
-
 @media only screen and (max-width: 625px){
     img{
         display: none;
