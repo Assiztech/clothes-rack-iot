@@ -24,7 +24,7 @@ const int RESOLUTION = 12;      // Could be 9-12
 const char *ssid = "OPPO A5 2020";
 const char *password = "pawito236";
 bool online = true;
-const String api = "http://192.168.170.58:8000";
+const String api = "http://192.168.170.197:8000";
 
 DHT dht(DHTPIN, DHTTYPE);
 int is_collect = 0;
