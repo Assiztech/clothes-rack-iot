@@ -1,10 +1,1 @@
-{
-    "temperature": 0,
-    "humidity": 0,
-    "light": 0,
-    "rain": 0,
-    "is_hanging": 0,
-    "force_collect": 0,
-    "is_auto": 0,
-    "env_status": 0
-}
+{"temperature": 25.7, "humidity": 60.0, "light": 4095.0, "rain": 0.0, "is_hanging": 1, "force_collect": 0, "is_auto": 1, "env_status": 4}
