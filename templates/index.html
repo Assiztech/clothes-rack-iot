@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Sensor Data Visualization</title>
+        <!-- <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> -->
+        <link
+            rel="icon"
+            href="https://cdn.discordapp.com/attachments/1189548322655047690/1210877602336612352/Screenshot_2567-02-24_at_16.15.01.png?ex=65ec28a5&is=65d9b3a5&hm=4a798b75326e255182c4031594cbb138ab2b861b3cf68dd9ad86dfea5439a247&"
+        />
+        <link rel="stylesheet" href="/static/style.css" />
+    </head>
+    <body>
+        <img
+            src="https://cdn.discordapp.com/attachments/1189548322655047690/1210874104379609158/Ganyu_Card.jpg?ex=65ec2563&is=65d9b063&hm=28cd0b7042a6f29909a2fc66af229fd5d3395c8be3fd1c9b5868fea577c7173a&"
+            alt=""
+        />
+        <div class="big-container">
+            <div class="container header">
+                <h1>Sensor Data Visualization</h1>
+                <div id="is_hanging" class="is_hanging"></div>
+                <div id="env_status" class="env_status"></div>
+                <ul>
+                    <p>Temperature</p>
+                    <div id="temperature">Loading...</div>
+                </ul>
+                <ul>
+                    <p>Humidity</p>
+                    <div id="humidity">Loading...</div>
+                </ul>
+                <ul>
+                    <p>Light</p>
+                    <div id="light">Loading...</div>
+                </ul>
+                <ul>
+                    <p>Rain</p>
+                    <div id="rain">Loading...</div>
+                </ul>
+            </div>
+            <div class="container footer">
+                <button id="actionButton">Collect Cloth In</button>
+                <button id="autoButton">Auto</button>
+            </div>
+            <script src="/static/script.js"></script>
+        </div>
+        <img
+            src="https://cdn.discordapp.com/attachments/1189548322655047690/1210874104379609158/Ganyu_Card.jpg?ex=65ec2563&is=65d9b063&hm=28cd0b7042a6f29909a2fc66af229fd5d3395c8be3fd1c9b5868fea577c7173a&"
+            alt=""
+        />
+    </body>
+</html>

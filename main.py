@@ -1,4 +1,5 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, Response, render_template
+import webbrowser
 import json
 from flask_cors import CORS
 
@@ -16,6 +17,10 @@ def load_data():
         return data
     except Exception as e:
         raise Exception("Open Json error")
+
+@app.route('/')
+def hello():
+    return render_template('index.html')
 
 @app.route("/update-sensor", methods=["GET"])
 def update_sensor():
@@ -93,4 +98,5 @@ if __name__ == "__main__":
         "env_status" : 0,
     }
     save_data(data)
-    app.run(debug=True, host='0.0.0.0', port=8000)
+    app.run(debug=False, host="0.0.0.0",port=8000)
+    webbrowser.open("http://127.0.0.1:8000/")

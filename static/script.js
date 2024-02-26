@@ -1,7 +1,7 @@
 // script.js
 
 async function fetchTemperature() {
-    const response = await fetch("http://127.0.0.1:8000/status", {
+    const response = await fetch("http://192.168.170.58:8000/status", {
         method: "GET",
     });
     const data = await response.json();
@@ -14,28 +14,23 @@ async function updateTemperature() {
     const statusElement = document.getElementById("is_hanging");
     statusElement.textContent = "Loading...";
     if (data.is_hanging == 1) {
-        statusElement.style.cssText = `color : rgb(128, 255, 0)`;
         statusElement.textContent = `Status : Hanging`;
     } else {
-        statusElement.style.cssText = `color : rgb(255, 255, 0)`;
         statusElement.textContent = `Status : Keeping`;
     }
 
     const envStatusElement = document.getElementById("env_status");
     envStatusElement.textContent = "Loading...";
     if (data.env_status == 1) {
-        envStatusElement.style.cssText = `color : rgb(255, 0, 0)`;
-        envStatusElement.textContent = `Weather : Rain`;
+        envStatusElement.textContent = `environment : Rain`;
     } else if (data.env_status == 2) {
-        envStatusElement.style.cssText = `color : rgb(255, 127, 0)`;
-        envStatusElement.textContent = `Weather : Might Rain`;
+        envStatusElement.textContent = `environment : Might Rain`;
     } else if (data.env_status == 3) {
-        envStatusElement.style.cssText = `color : rgb(0, 255, 64) `;
-        envStatusElement.textContent = `Weather : Sunny (Hot)`;
+        envStatusElement.textContent = `environment : Sunny (Hot)`;
     } else {
-        envStatusElement.style.cssText = `color : rgb(128, 255, 0)`;
-        envStatusElement.textContent = `Weather : Sunny`;
+        envStatusElement.textContent = `environment : Sunny`;
     }
+
 
     const actionButton = document.getElementById("actionButton");
     if (data.is_hanging) {
@@ -51,74 +46,25 @@ async function updateTemperature() {
         autoButton.textContent = "System: Manual";
     }
 
-    let r, g, b;
     const temperatureElement = document.getElementById("temperature");
     temperatureElement.textContent = "Loading...";
-    r = 0;
-    g = 0;
-    b = 30;
-    const dataTemp = data.temperature;
-    r = (dataTemp - 20) * 24;
-    g = (34 - dataTemp) * 36;
-    if (dataTemp <= 20) {
-        r = 0;
-        g = 255;
-        b = 30;
-    }
-    temperatureElement.style.cssText = `color : rgb(${r},${g},${b});`;
-    temperatureElement.textContent = `${dataTemp}`;
+    temperatureElement.textContent = `${data.temperature}`;
 
     const humidityElement = document.getElementById("humidity");
     humidityElement.textContent = "Loading...";
-    r = 0;
-    g = 0;
-    b = 30;
-    const dataHum = data.humidity;
-    r = (dataHum - 30) * 24;
-    g = (82 - dataHum) * 36;
-    if (dataHum <= 20) {
-        r = 0;
-        g = 255;
-        b = 30;
-    }
-    humidityElement.style.cssText = `color : rgb(${r},${g},${b});`;
-    humidityElement.textContent = `${dataHum}`;
+    humidityElement.textContent = `${data.humidity}`;
 
     const lightElement = document.getElementById("light");
     lightElement.textContent = "Loading...";
-    r = 0;
-    g = 0;
-    b = 30;
-    const dataLight = data.light;
-    g = (dataLight - 700) * 3.6;
-    r = (1100 - dataLight) * 2.4;
-    if (dataLight <= 200) {
-        r = 0;
-        g = 255;
-        b = 30;
-    }
-    lightElement.style.cssText = `color : rgb(${r},${g},${b});`;
-    lightElement.textContent = `${dataLight}`;
+    lightElement.textContent = `${data.light}`;
 
     const rainElement = document.getElementById("rain");
     rainElement.textContent = "Loading...";
-    r = 0;
-    g = 0;
-    b = 30;
-    const dataRain = data.rain;
-    r = (dataRain - 100) * 0.24;
-    g = (1700 - dataRain) * 0.36;
-    if (dataRain <= 200) {
-        r = 0;
-        g = 255;
-        b = 30;
-    }
-    rainElement.style.cssText = `color : rgb(${r},${g},${b});`;
-    rainElement.textContent = `${dataRain}`;
+    rainElement.textContent = `${data.rain}`;
 }
 async function forceCollect() {
     try {
-        const response = await fetch("http://127.0.0.1:8000/force-collect", {
+        const response = await fetch("http://192.168.170.58:8000/force-collect", {
             method: "GET",
         });
         if (response.ok) {
@@ -135,7 +81,7 @@ async function forceCollect() {
 
 async function autoManual() {
     try {
-        const response = await fetch("http://127.0.0.1:8000/auto-manual", {
+        const response = await fetch("http://192.168.170.58:8000/auto-manual", {
             method: "GET",
         });
         if (response.ok) {
